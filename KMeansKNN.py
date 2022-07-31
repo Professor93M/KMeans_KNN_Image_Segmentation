@@ -1,3 +1,6 @@
+# Professor
+## Mohammed K Jummah
+## Professor404@gmail.com
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
