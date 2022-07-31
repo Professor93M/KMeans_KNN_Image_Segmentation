@@ -1,9 +1,11 @@
+from turtle import color
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
+from matplotlib.widgets import TextBox
 
 ####### Importing the image #######
 img = cv2.imread('1.bmp')
@@ -33,9 +35,11 @@ im = pca.fit_transform(im)
 
 im = im.reshape(img.shape) # reshape the image to the original shape
 
+fig = plt.figure()
+fig.canvas.set_window_title('Image Segmentation K-Means and KNN - Mohammed K Jumaah')
 plt.subplot(sub+1,4,1)
 plt.imshow(img)
-plt.title('Original Image')
+plt.title('Original Image', color='b')
 plt.axis('off')
 for i in range(n_clusers):
     mask = np.zeros(im.shape)
@@ -45,6 +49,9 @@ for i in range(n_clusers):
                 mask[j, k] = im[j, k]
     plt.subplot(sub+1, 4, i + 2)
     plt.imshow(mask)
-    plt.title('Cluster ' + str(i+1))
+    plt.title('Cluster_' + str(i+1))
     plt.axis('off')
+plt.figtext(0.5, 0.05, 'Accuracy: {:.2f}%'.format(score), ha='center', fontsize=13, fontweight='bold', color='b')
+fm = plt.get_current_fig_manager()
+fm.window.showMaximized()
 plt.show()
