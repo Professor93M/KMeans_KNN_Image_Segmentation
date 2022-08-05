@@ -1,11 +1,9 @@
-from turtle import color
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
-from matplotlib.widgets import TextBox
 
 ####### Importing the image #######
 img = cv2.imread('1.bmp')
@@ -13,7 +11,11 @@ img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 im = img.reshape((-1, 3))
 im = np.float32(im)
 
-n_clusers = 7
+### PCA ####
+pca = PCA(3)
+im = pca.fit_transform(im)
+
+n_clusers = 3
 sub = n_clusers // 4  # for arranging the clusters in the figure 
 
 #### KMeans ####
@@ -28,10 +30,6 @@ ret, results,neighbours,dist = knn.findNearest(im, k=n_clusers)
 
 score = 100.00 * accuracy_score(labels, results)
 print("Accuracy: {:.2f}%".format(score))
-
-### PCA ####
-pca = PCA(3)
-im = pca.fit_transform(im)
 
 im = im.reshape(img.shape) # reshape the image to the original shape
 
