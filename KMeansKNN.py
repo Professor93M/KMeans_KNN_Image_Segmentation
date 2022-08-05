@@ -19,14 +19,14 @@ n_clusers = 3
 sub = n_clusers // 4  # for arranging the clusters in the figure 
 
 #### KMeans ####
-_, labels, center = cv2.kmeans(im, n_clusers, None, criteria=(cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 1.0), attempts=10, flags=cv2.KMEANS_PP_CENTERS)
+_, labels, center = cv2.kmeans(im, n_clusers, None, criteria=(cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 1.0), attempts=100, flags=cv2.KMEANS_PP_CENTERS)
 
 #### KNN ####
 (trainX, testX, trainY, testY) = train_test_split(im, labels, test_size=0.75)
 
 knn = cv2.ml.KNearest_create()
 knn.train(trainX, cv2.ml.ROW_SAMPLE, np.ravel(trainY,order='C'))
-ret, results,neighbours,dist = knn.findNearest(im, k=n_clusers)
+_, results,_,_ = knn.findNearest(im, k=n_clusers)
 
 score = 100.00 * accuracy_score(labels, results)
 print("Accuracy: {:.2f}%".format(score))
